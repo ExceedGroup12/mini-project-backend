@@ -1,6 +1,10 @@
 from pymongo import MongoClient
 from datetime import datetime
+
+
+
 from estimate import calculate_estimate
+
 
 client = MongoClient('mongodb://localhost', 27017)
 
@@ -51,3 +55,5 @@ def get_all_data():
             "first": dt_object,
         })
     return data
+
+
