@@ -1,9 +1,7 @@
 from datetime import datetime
-from fastapi import FastAPI, HTTPException
-from bson import json_util
+from fastapi import FastAPI
 from pymongo import MongoClient
 from pydantic import BaseModel
-from fastapi.encoders import jsonable_encoder
 
 client = MongoClient('mongodb://localhost:27017/')
 
@@ -35,7 +33,7 @@ def i_log3(inn,out):
     c2 = {"inn": inn , "out": out}
     x = collection3.insert_one(c2)
 
-@app.put("/update")
+@app.post("/update")
 def update(ms: ss):
     nt = datetime.now()
     now_time = datetime.timestamp(nt)
