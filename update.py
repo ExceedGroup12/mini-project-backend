@@ -35,7 +35,7 @@ def i_log3(inn,out):
     c2 = {"inn": inn , "out": out}
     x = collection3.insert_one(c2)
 
-@app.put("/update")
+
 def update(ms: ss):
     nt = datetime.now()
     now_time = datetime.timestamp(nt)
@@ -49,6 +49,11 @@ def update(ms: ss):
         collection.update_one(my_query, new_query)
 
         result = collection.find({"room":ms.room})
+        result = list(result)
+        if len(result) == 0:
+            return {
+                "status": "room not found"
+            }
         x = result[0]
         #Insert to log
         if (ms.room == 'l1'):

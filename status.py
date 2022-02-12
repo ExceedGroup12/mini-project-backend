@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from datetime import datetime
+from estimate import calculate_estimate
 
 client = MongoClient('mongodb://localhost', 27017)
 
@@ -15,24 +16,27 @@ def get_data(room:str):
         "status":"Not Found",
         "diff": None
         }
+    now = datetime.now()
+    estimate_time = r[0]["first"] + calculate_estimate() - datetime.timestamp(now)
+    if estimate_time < 0:
+        estimate_time = "Over estimate"
     diff = compute_diff_time(r[0]["first"], r[0]["last"])
     dt_object = datetime.fromtimestamp(r[0]["first"])
     return{
         "room":room,
         "status":r[0]["status"],
         "diff": diff,
-        "first": dt_object
+        "first": dt_object,
+        "estimate": estimate_time
     }
     
 def compute_diff_time(first, last):
-    if first == None:
-        diff = None
-    elif last == None:
+    if first != None and last == None:
         now = datetime.now()
         timestamp = datetime.timestamp(now)
         diff = timestamp - first
     else:
-        diff = last - first
+        diff = None
     return diff
     
 def get_all_data():
@@ -44,6 +48,6 @@ def get_all_data():
             "room":rooms["room"],
             "status":rooms["status"],
             "diff": compute_diff_time(rooms["first"], rooms["last"]),
-            "first": dt_object
+            "first": dt_object,
         })
     return data
