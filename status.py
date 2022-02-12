@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from datetime import datetime
+import update
 
 client = MongoClient('mongodb://localhost', 27017)
 
@@ -47,3 +48,5 @@ def get_all_data():
             "first": dt_object
         })
     return data
+
+

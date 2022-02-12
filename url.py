@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from status import get_all_data, get_data
+import status
 
 app = FastAPI()
 
